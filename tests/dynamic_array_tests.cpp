@@ -1,5 +1,5 @@
 #include <catch2/catch.hpp>
-
+#include <iostream>
 #include <cmath>  // min
 
 #include "utils.hpp"  // rand_array
@@ -11,6 +11,7 @@ using assignment::DynamicArray;
 using Catch::Matchers::Contains;
 using Catch::Matchers::Equals;
 using Catch::Matchers::VectorContains;
+using namespace std;
 
 SCENARIO("DynamicArray::DynamicArray") {
 
