@@ -1,8 +1,9 @@
 #include "assignment/array_stack.hpp"
+#include "assignment/dynamic_array.hpp"
 
 #include <algorithm>  // copy, fill
 #include <stdexcept>  // invalid_argument (НЕЛЬЗЯ ИСПОЛЬЗОВАТЬ)
-
+using namespace std;
 namespace assignment {
 
   ArrayStack::ArrayStack(int capacity) {
@@ -12,7 +13,9 @@ namespace assignment {
       throw std::invalid_argument("capacity is not positive");
     }
 
-    // Write your code here ...
+    capacity_ = capacity;
+    data_ = new int[capacity];
+    fill(data_, data_+capacity, 0);
   }
 
   ArrayStack::~ArrayStack() {
@@ -20,41 +23,71 @@ namespace assignment {
   }
 
   void ArrayStack::Push(int value) {
-    // Write your code here ...
+    if (size_ == capacity_){
+      Resize(capacity_+kCapacityGrowthCoefficient);
+      data_[size_] = value;
+      size_+=1;
+    }
+    else{
+      data_[size_] = value;
+      size_+=1;
+    }
   }
 
   bool ArrayStack::Pop() {
-    // Write your code here ...
-    return false;
+    if (size_ == 0){
+      return false;
+    }
+    else{
+      size_-=1;
+      return true;
+    }
   }
 
   void ArrayStack::Clear() {
-    // Write your code here ...
+    size_ = 0;
   }
 
   std::optional<int> ArrayStack::Peek() const {
-    // Write your code here ...
-    return std::nullopt;
+    if (size_ == 0){
+      return std::nullopt;
+    }
+    else {
+        return data_[size_-1];
+    };
+
   }
 
   bool ArrayStack::IsEmpty() const {
-    // Write your code here ...
-    return false;
+    return size_ == 0;
   }
 
   int ArrayStack::size() const {
-    // Write your code here ...
-    return 0;
+    return size_;
   }
 
   int ArrayStack::capacity() const {
-    // Write your code here ...
-    return 0;
+    return capacity_;
   }
 
   bool ArrayStack::Resize(int new_capacity) {
-    // Write your code here ...
-    return false;
+    if (new_capacity<= capacity_){
+      return false;
+    }
+    int* old = data_;
+    data_ = new int[new_capacity];
+    for(int i = 0;i<new_capacity;i++){
+      if (i<capacity_){
+        data_[i] = old[i];
+      }
+      else{
+        data_[i] = 0;
+      }
+
+    }
+    delete[] old;
+    capacity_= new_capacity;
+    return true;
   }
 
   // ДЛЯ ТЕСТИРОВАНИЯ
